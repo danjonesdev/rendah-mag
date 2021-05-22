@@ -118,8 +118,10 @@ export default () =>
       S.documentTypeListItem("cypher").icon(MDMusic),
       // Guest Mix
       S.documentTypeListItem("mix").icon(MDMusicVideo),
-      // Guest Mix
+      // Track
       S.documentTypeListItem("track").icon(MDMusicVideo),
+      // Pack
+      S.documentTypeListItem("pack").icon(MDMusicVideo),
       // Smart Link
       S.documentTypeListItem("smartLink").icon(MDViewList),
     ]);

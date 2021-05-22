@@ -7,6 +7,7 @@ import { Tabs } from 'next-pattern-library';
 import ProfileEdit from '~/components/profile/edit';
 import ProfileMessages from '~/components/profile/messages';
 import ProfilePipeline from '~/components/profile/pipeline';
+import ProfileSamples from '~/components/profile/samples';
 import ProfileCreations from '~/components/profile/creations';
 import ProfileOfferings from '~/components/profile/offerings';
 import ProfileBilling from '~/components/profile/billing';
@@ -30,6 +31,7 @@ export default function Profile({ siteConfig }) {
   const [user, { loading, mutate, error }] = useUser();
   const [refreshDominion, setRefreshDominion] = useState(false);
   const [refreshOffering, setRefreshOffering] = useState(false);
+  const [refreshSamples, setRefreshSamples] = useState(false);
 
   useEffect(() => {
     // redirect user to login if not authenticated
@@ -54,6 +56,10 @@ export default function Profile({ siteConfig }) {
 
     if (visibleTab === '3') {
       setRefreshOffering(true);
+    }
+
+    if (visibleTab === 'samples') {
+      setRefreshSamples(true);
     }
   };
 
@@ -105,10 +111,18 @@ export default function Profile({ siteConfig }) {
                           ),
                         },
                         {
+                          id: 'samples',
+                          tabTitle: 'Samples',
+                          tabContent: (
+                            <ProfileSamples refreshDominion={refreshSamples} />
+                          ),
+                        },
+                        {
                           id: '4',
                           tabTitle: 'Creations',
                           tabContent: <ProfileCreations />,
                         },
+
                         {
                           id: '5',
                           tabTitle: 'Pipeline',

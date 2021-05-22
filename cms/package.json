@@ -21,7 +21,7 @@
     "@sanity/dashboard": "^2.7.0",
     "@sanity/default-layout": "^2.10.2",
     "@sanity/default-login": "^2.8.0",
-    "@sanity/desk-tool": "^2.10.2",
+    "@sanity/desk-tool": "^2.10.4",
     "@sanity/image-url": "^0.140.22",
     "@sanity/production-preview": "^2.2.6",
     "@sanity/react-hooks": "^2.10.0",
