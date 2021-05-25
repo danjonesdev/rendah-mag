@@ -20,10 +20,25 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
-      name: "description",
-      title: "Description",
-      type: "array",
-      of: [{ type: "block" }],
+      name: "image",
+      title: "Image",
+      type: "image",
+      fields: [
+        {
+          name: "resize",
+          title: "Resize",
+          type: "string",
+          options: {
+            list: [
+              { title: "None", value: "none" },
+              { title: "1080px", value: "1080" },
+              { title: "1920px", value: "1920" },
+            ],
+            layout: "radio",
+          },
+        },
+      ],
+      validation: (Rule) => Rule.required(),
     },
     {
       name: "folder",

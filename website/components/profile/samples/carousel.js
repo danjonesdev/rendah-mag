@@ -21,12 +21,15 @@ import { useApp } from '~/context-provider/app';
 import { useUser } from '~/lib/hooks';
 
 const buttonIconDownload = <Icon icon={['fas', 'arrow-alt-circle-down']} />;
+const iconInfo = <Icon icon={['fas', 'info-circle']} size="lg" />;
 
 export default function Carousel({ packs, refreshDominion }) {
   const app = useApp();
   const [user, { loading, mutate, error }] = useUser();
   const [currentSlide, setCurrentSlide] = useState(0);
   const disableArrows = packs.length <= (app.deviceSize === 'md' ? 1 : 3);
+  const [hasShownModal, setHasShownModal] = useState(false);
+  const [modalActive, setModalActive] = useState(false);
 
   const sliderNavOptions = {
     slidesPerView: app.deviceSize === 'md' ? 1 : 3,
@@ -142,7 +145,7 @@ export default function Carousel({ packs, refreshDominion }) {
         <section
           className={`
           dominion-carousel-wrapper
-          dominion-canDisplay  dominion-fadeIn
+          dominion__packs__carousel
           `}
         >
           <div className="pb2">
@@ -170,51 +173,122 @@ export default function Carousel({ packs, refreshDominion }) {
               className="keen-slider  flex  align-center  pb4"
             >
               {packs.map((item, i) => (
-                <article
-                  className="www  keen-slider__slide  relative  pt3  ph3  pb4"
-                  key={item._id}
-                >
-                  <div className="relative  profile__dominion__carousel-item__wrapper">
-                    <div
-                      style={{
-                        backgroundImage:
-                          'url(https://cdn.sanity.io/images/q8z2vf2k/production/78e9b8033c9b75038ae1e5ef047110fd78b7372a-1080x816.png?rect=132,0,816,816&w=75&h=75&blur=20&fit=clip&auto=format)',
-                      }}
-                      className={`profile__dominion__carousel-item  mla  mra  flex  align-center  justify-center  pa4  br4  shadow2`}
-                    >
-                      <div className="flex  flex-wrap">
-                        <p className="col-24  t-primary  white  f5  f6-md  tac  lh-copy  text-shadow">
-                          {item.title}
-                        </p>
+                <>
+                  <Modal
+                    /* Options */
+                    size="small"
+                    active={modalActive}
+                  >
+                    <div className="pb2  mb2">
+                      <Heading
+                        /* Options */
+                        htmlEntity="h3"
+                        text={item.title}
+                        color="black"
+                        size="medium"
+                        truncate={0}
+                        onClick={null}
+                        /* Children */
+                        withLinkProps={null}
+                      />
+                    </div>
+                    <div className="pb3">
+                      <Copy
+                        /* Options */
+                        text="Lorem ipsum dolor sit amet."
+                        color="black"
+                        size="medium"
+                        truncate={null}
+                      />
+                    </div>
+                    <div className="flex  flex-wrap  pb2">
+                      <div className="col-24  flex  align-center">
+                        <Button
+                          /* Options */
+                          type="primary"
+                          size="small"
+                          text="Close"
+                          color="black"
+                          fluid={false}
+                          icon={null}
+                          iconFloat={null}
+                          inverted={false}
+                          loading={false}
+                          disabled={false}
+                          skeleton={false}
+                          onClick={() => {
+                            setModalActive(false);
+                          }}
+                          /* Children */
+                          withLinkProps={null}
+                        />
                       </div>
                     </div>
-                  </div>
+                  </Modal>
 
-                  <div className="absolute  flex  justify-center  bottom  left  right">
-                    <Button
-                      /* Options */
-                      type="secondary"
-                      size="medium"
-                      text="Download"
-                      color="black"
-                      fluid={false}
-                      icon={buttonIconDownload}
-                      iconFloat={null}
-                      inverted
-                      loading={false}
-                      disabled={false}
-                      skeleton={false}
-                      onClick={null}
-                      /* Children */
-                      withLinkProps={{
-                        type: 'external',
-                        href: `${item.folder}?dl=`,
-                        target: '_self',
-                        routerLink: null,
-                      }}
-                    />
-                  </div>
-                </article>
+                  <article
+                    className="www  keen-slider__slide  relative  pt3  ph3  pb4"
+                    key={item._id}
+                  >
+                    <div className="relative  profile__dominion__carousel-item__wrapper">
+                      <div
+                        style={{
+                          backgroundImage: `url(
+                          ${imageBuilder
+                            .image(item.image)
+                            .auto('format')
+                            .height(75)
+                            .width(75)
+                            .fit('clip')
+                            .blur('20')
+                            .url()}
+                          )`,
+                        }}
+                        className={`profile__dominion__carousel-item  mla  mra  flex  align-center  justify-center  pa4  br4  shadow2`}
+                      >
+                        <div
+                          onClick={() => {
+                            setModalActive(true);
+                          }}
+                          className="cp  absolute top  right  nt2  mr3  info-color  bg-white  br-100  shadow2"
+                        >
+                          {iconInfo}
+                        </div>
+
+                        <div className="flex  flex-wrap">
+                          <p className="col-24  t-primary  white  f5  f6-md  tac  lh-copy  text-shadow">
+                            {item.title}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="absolute  flex  justify-center  bottom  left  right">
+                      <Button
+                        /* Options */
+                        type="secondary"
+                        size="medium"
+                        text="Download"
+                        color="black"
+                        fluid={false}
+                        icon={buttonIconDownload}
+                        iconFloat={null}
+                        inverted
+                        loading={false}
+                        disabled={false}
+                        skeleton={false}
+                        onClick={null}
+                        /* Children */
+                        withLinkProps={{
+                          type: 'external',
+                          href: `${item.folder}?dl=`,
+                          target: '_self',
+                          routerLink: null,
+                        }}
+                      />
+                    </div>
+                  </article>
+                </>
               ))}
 
               {renderGhostCards()}
