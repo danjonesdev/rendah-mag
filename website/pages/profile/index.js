@@ -4,6 +4,8 @@ import zenscroll from 'zenscroll';
 
 import { Tabs } from 'next-pattern-library';
 
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import ProfileEdit from '~/components/profile/edit';
 import ProfileMessages from '~/components/profile/messages';
 import ProfilePipeline from '~/components/profile/pipeline';
@@ -14,8 +16,6 @@ import ProfileBilling from '~/components/profile/billing';
 import Layout from '~/components/layout';
 import Container from '~/components/layout/container';
 
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 
 import { useApp } from '~/context-provider/app';
 import { useUser } from '~/lib/hooks';
@@ -63,6 +63,8 @@ export default function Profile({ siteConfig }) {
     }
   };
 
+  console.log('app.deviceSize', app.deviceSize);
+
   if (user) {
     return (
       <Elements stripe={stripePromise}>
@@ -82,7 +84,7 @@ export default function Profile({ siteConfig }) {
           >
             <div className="pt4  pt0-md  pb4">
               <Container>
-                {user && (
+                {user && app.deviceSize && (
                   <div className="tabs-wrapper--side-bar">
                     <Tabs
                       /* Options */
